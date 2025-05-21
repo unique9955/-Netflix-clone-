@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moviezstream - Watch Movies Online</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Additional styles for hero banner slider */
+        .hero {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+        }
+        
+        .hero-slider {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 15vh;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .slider-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .slider-btn:hover {
+            opacity: 1;
+        }
+        
+        .slider-dots {
+            display: flex;
+            gap: 10px;
+            margin: 0 20px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .dot.active {
+            background-color: #e50914;
+        }
+        
+        /* Auth buttons in header */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn-login, .btn-signup {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-login {
+            color: #fff;
+            border: 1px solid #e50914;
+        }
+        
+        .btn-login:hover {
+            background-color: rgba(229, 9, 20, 0.1);
+        }
+        
+        .btn-signup {
+            background-color: #e50914;
+            color: #fff;
+        }
+        
+        .btn-signup:hover {
+            opacity: 0.9;
+        }
+        
+        /* Responsive adjustments */
+        @media screen and (max-width: 992px) {
+            header {
+                flex-wrap: wrap;
+                padding: 1rem 5%;
+            }
+            
+            .logo, .auth-buttons {
+                flex: 0 0 auto;
+            }
+            
+            .search-bar {
+                order: 4;
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            nav {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .hero {
+                height: 70vh;
+            }
+            
+            .hero-content {
+                padding-top: 10vh;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+                margin-top: 15px;
+                order: 5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Moviezstream</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search for movies...">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="#">Categories</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn-login">Login</a>
+            <a href="signup.html" class="btn-signup">Sign Up</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-slider" id="hero-slider">
+            <!-- Banner slides will be added by JavaScript -->
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2>Unlimited Movies, TV Shows, and more.</h2>
+            <p>Watch anywhere. Cancel anytime.</p>
+            <button class="btn-watch">Watch Now</button>
+        </div>
+        <div class="slider-controls">
+            <button id="prev-slide" class="slider-btn"><i class="fas fa-chevron-left"></i></button>
+            <div class="slider-dots" id="slider-dots">
+                <!-- Dots will be added by JavaScript -->
+            </div>
+            <button id="next-slide" class="slider-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section class="featured">
+        <h2>Featured Movies</h2>
+        <div class="movie-slider" id="featured-movies">
+            <!-- Movie cards will be added here by JavaScript -->
+        </div>
+    </section>
+
+    <section class="popular">
+        <h2>Popular Movies</h2>
+        <div class="movie-grid" id="popular-movies">
+            <!-- Movie cards will be added here by JavaScript -->
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2>Browse by Category</h2>
+        <div class="category-container">
+            <div class="category">Action</div>
+            <div class="category">Comedy</div>
+            <div class="category">Drama</div>
+            <div class="category">Horror</div>
+            <div class="category">Sci-Fi</div>
+            <div class="category">Romance</div>
+            <div class="category">Thriller</div>
+            <div class="category">Adventure</div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>Moviezstream</h2>
+                <p>Your ultimate destination for movies and TV shows</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#">TV Shows</a></li>
+                    <li><a href="#">Categories</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Moviezstream. All rights reserved.</p>
+            <p>Disclaimer: This is a demo website for educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Banner slides data
+            const bannerSlides = [
+                {
+                    id: 1,
+                    title: "Avengers: Endgame",
+                    imageUrl: "https://image.tmdb.org/t/p/original/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg"
+                },
+                {
+                    id: 2,
+                    title: "Joker",
+                    imageUrl: "https://image.tmdb.org/t/p/original/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg"
+                },
+                {
+                    id: 3,
+                    title: "Dune",
+                    imageUrl: "https://www.hdwallpapers.in/download/poster_of_dune_2020_4k_hd_movies-HD.jpg"
+                },
+                {
+                    id: 4,
+                    title: "Spider-Man: No Way Home",
+                    imageUrl: "https://image.tmdb.org/t/p/original/14QbnygCuTO0vl7CAFmPf1fgZfV.jpg"
+                },
+                {
+                    id: 5,
+                    title: "The Dark Knight",
+                    imageUrl: "https://image.tmdb.org/t/p/original/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg"
+                }
+            ];
+            
+            // Initialize banner slider
+            const sliderContainer = document.getElementById('hero-slider');
+            const dotsContainer = document.getElementById('slider-dots');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            
+            let currentSlide = 0;
+            
+            // Create slides and dots
+            bannerSlides.forEach((slide, index) => {
+                // Create slide
+                const slideElement = document.createElement('div');
+                slideElement.className = `hero-slide ${index === 0 ? 'active' : ''}`;
+                slideElement.style.backgroundImage = `url(${slide.imageUrl})`;
+                sliderContainer.appendChild(slideElement);
+                
+                // Create dot
+                const dot = document.createElement('div');
+                dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Functions to control slider
+            function goToSlide(index) {
+                const slides = document.querySelectorAll('.hero-slide');
+                const dots = document.querySelectorAll('.dot');
+                
+                // Hide all slides
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                
+                // Deactivate all dots
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
+                
+                // Show selected slide
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                
+                currentSlide = index;
+            }
+            
+            function nextSlide() {
+                const slides = document.querySelectorAll('.hero-slide');
+                const nextIndex = (currentSlide + 1) % slides.length;
+                goToSlide(nextIndex);
+            }
+            
+            function prevSlide() {
+                const slides = document.querySelectorAll('.hero-slide');
+                const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+                goToSlide(prevIndex);
+            }
+            
+            // Add event listeners
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            
+            // Auto slide
+            setInterval(nextSlide, 5000);
+        });
+    </script>
+</body>
+</html> 
